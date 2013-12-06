@@ -25,12 +25,14 @@ template<class T> void bloch (const state_type &m,
 	const std::complex<T> rf = Bloch<T>::Instance().GetRF(t);
 
 	double bx = GAMMA*real(rf), by = GAMMA*imag(rf),
-			bz, r1=1./spin.t1(), r2=1./spin.t2();
+			bz = 0. + spin.cs(), r1=1./spin.t1(), r2=1./spin.t2();
 
 	codeare::container<T> B (9,0.);
 	B[0] = -r2; B[3] =  bz; B[6] = -by;
 	B[1] = -bz; B[4] = -r2; B[7] =  bx;
 	B[2] =  by; B[5] = -bx; B[8] = -r1;
+
+	//std::cerr << t << " " << bx << " " << by  << " " << bz << std::endl;
 
 	multiply (m, B, dm);
 	dm[2] += spin.pd()*r1;
@@ -45,18 +47,20 @@ void record (const state_type& x, const double t) {
 
 int main (int argc, char **argv) {
 
-	Spin<double> spin (1., 0., 0., 0., 1., 1., 0.); // PD, X, Y, Z, T1, T2, dW
-	state_type x = { 0., 0., 1. }; // initial magnetisation
-	// Keep the RF in a variable during integration, otherwise its destructor will be called
 
-	//AdiabaticRF<double> arf (0., 10.e-3, 2.e-3); // Adiabatic hypsec inv 10ms
-	HardRF<double> hrf (0., 2.e-4, std::complex<double>(0.,1.9e-4));   // Hard 90 deg
+	/** RF alternatives **/
+	//AdiabaticRF<double> rf (0., 10.e-3, 200.0e-6); // Adiabatic hypsec inv 10ms
+	HardRF<double> rf1 (0.0, 0.0002, std::complex<double>(0.,1.9e-4));   // Hard 90 deg
+	HardRF<double> rf2 (2.0, 2.0002, std::complex<double>(0.,1.9e-4));   // Hard 90 deg
 
+	/** Simulation world **/
+	Spin<double> spin (1., 0., 0., 0., 1., 60.e-3, 0*TWOPI);
 	Bloch<double>::Instance().SetSpin(spin);
+	Bloch<double>::Instance().AddEvent(rf1);
+	Bloch<double>::Instance().AddEvent(rf2);
 
-	//Bloch<double>::Instance().AddEvent((RF<double>)arf);
-	Bloch<double>::Instance().AddEvent((RF<double>)hrf);
-
+	/** Integrate IVP **/
+	state_type x = { 0., 0., 1. }; // initial magnetisation
 	integrate(bloch<double>, x, 0., 5., 1.e-6, record);
 
 }

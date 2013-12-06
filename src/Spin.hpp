@@ -28,7 +28,7 @@ public:
 	inline T rz() const {return _rz;}
 	inline T t1() const {return _t1;}
 	inline T t2() const {return _t2;}
-	inline T t3() const {return _cs;}
+	inline T cs() const {return _cs;}
 
 private:
 	T _pd, _rx, _ry, _rz, _t1, _t2, _cs;

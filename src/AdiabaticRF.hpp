@@ -30,8 +30,8 @@ public:
 
 	std::complex<T> operator() (double t) const {
 		if (this->Active(t) && this->Duration() > 0.) {
-			double x = TWOPI * ((t-this->_tpois.front())/this->Duration()-.5);
-			return this->_scale*std::polar(sech(x),sech(x*x));
+			double x = pow(.5*TWOPI * ((t-this->_tpois.front())/this->Duration()-.5),2.0);
+			return this->_scale*std::polar(sech(x),x*x);
 		}
 		return std::complex<T>(0.,0.);
 	}
