@@ -23,14 +23,14 @@ public:
 
 	AdiabaticRF (double start = 0., double end = 0., T scale = 1.) :
 		RF<T> (start, end, scale) {
-		this->_type = ADIABATIC;
+		this->_type = ADIABATIC_RF;
 	}
 
 	virtual ~AdiabaticRF() {};
 
 	std::complex<T> operator() (double t) const {
 		if (this->Active(t) && this->Duration() > 0.) {
-			double x = pow(.5*TWOPI * ((t-this->_tpois.front())/this->Duration()-.5),2.0);
+			double x = pow(TWOPI * ((t-this->_tpois.front())/this->Duration()-.5),2.0);
 			return this->_scale*std::polar(sech(x),x*x);
 		}
 		return std::complex<T>(0.,0.);

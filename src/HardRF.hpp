@@ -16,7 +16,7 @@ public:
 
 	HardRF (double start = 0., double end = 0., std::complex<T> scale = 1.) :
 		RF<T> (start, end, scale) {
-		this->_type = HARD;
+		this->_type = HARD_RF;
 	}
 
 	virtual ~HardRF() {};

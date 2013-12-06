@@ -11,12 +11,17 @@
 #include "HDF5File.hpp"
 #include "NDData.hpp"
 
+enum EventType {NONE_E = -1, RF_E, GRADIENT_E};
+
+template<class T> class RF;
+template<class T> class Gradient;
+
 template<class T>
 class Event {
 
 public:
 	virtual ~Event() {};
-	Event (double start = 0., double end = 0.) {
+	Event (double start = 0., double end = 0.) : _etype(NONE_E) {
 		this->_tpois.push_back(start);
 		this->_tpois.push_back(end);
 	}
@@ -34,8 +39,9 @@ public:
 	}
 
 protected:
-	std::vector<double> _tpois;
 
+	std::vector<double> _tpois;
+	EventType _etype;
 
 };
 #endif /* EVENT_HPP_ */

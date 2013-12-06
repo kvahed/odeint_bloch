@@ -32,11 +32,7 @@ public:
 	inline std::complex<T> GetRF (const double t) const {
 		std::complex<T> rft (0.,0.);
 		for (size_t i = 0; i < _rfs.size(); ++i)
-			switch (_rfs[i]->Type()) {
-			    case ADIABATIC: rft += (*(const AdiabaticRF<T>*)_rfs[i])(t); break;
-			    case HARD:		rft += (*(const HardRF<T>*)_rfs[i])(t); break;
-			    default:        break;
-			}
+			rft += (*_rfs[i])(t);
 		return rft;
 	}
 

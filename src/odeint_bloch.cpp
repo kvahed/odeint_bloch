@@ -47,17 +47,16 @@ void record (const state_type& x, const double t) {
 
 int main (int argc, char **argv) {
 
-
 	/** RF alternatives **/
-	//AdiabaticRF<double> rf (0., 10.e-3, 200.0e-6); // Adiabatic hypsec inv 10ms
-	HardRF<double> rf1 (0.0, 0.0002, std::complex<double>(0.,1.9e-4));   // Hard 90 deg
-	HardRF<double> rf2 (2.0, 2.0002, std::complex<double>(0.,1.9e-4));   // Hard 90 deg
+	AdiabaticRF<double> rf (0., 10.e-3, 200.0e-6); // Adiabatic hypsec inv 10ms
+	//HardRF<double> rf1 (0., 0.0002, std::complex<double>(0.,1.845e-4));   // Hard 90 deg
+	//HardRF<double> rf2;   // Hard 90 deg
 
 	/** Simulation world **/
 	Spin<double> spin (1., 0., 0., 0., 1., 60.e-3, 0*TWOPI);
 	Bloch<double>::Instance().SetSpin(spin);
-	Bloch<double>::Instance().AddEvent(rf1);
-	Bloch<double>::Instance().AddEvent(rf2);
+	Bloch<double>::Instance().AddEvent(rf);
+	//Bloch<double>::Instance().AddEvent(rf2);
 
 	/** Integrate IVP **/
 	state_type x = { 0., 0., 1. }; // initial magnetisation
