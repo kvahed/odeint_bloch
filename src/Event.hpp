@@ -11,13 +11,19 @@
 #include "HDF5File.hpp"
 #include "NDData.hpp"
 
+#include <boost/tuple/tuple.hpp>
+
 enum EventType {NONE_E = -1, RF_E, GRADIENT_E};
+
+const static double TWOPI = 6.283185307179586476925286766559005768394338798750211641949889185;
 
 template<class T> class RF;
 template<class T> class Gradient;
 
 template<class T>
 class Event {
+
+	typedef std::complex<T> CT;
 
 public:
 	virtual ~Event() {};

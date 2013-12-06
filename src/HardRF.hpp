@@ -12,18 +12,20 @@
 template<class T>
 class HardRF : public RF<T> {
 
+	typedef std::complex<T> CT;
+
 public:
 
-	HardRF (double start = 0., double end = 0., std::complex<T> scale = 1.) :
+	HardRF (double start = 0., double end = 0., CT scale = 1.) :
 		RF<T> (start, end, scale) {
 		this->_type = HARD_RF;
 	}
 
 	virtual ~HardRF() {};
 
-	std::complex<T> operator() (double t) const {
+	CT operator() (double t) const {
 		return (this->Active(t) && this->Duration() > 0.) ?
-				this->_scale : std::complex<T>(0., 0.);
+				this->_scale : CT(0., 0.);
 	}
 
 };

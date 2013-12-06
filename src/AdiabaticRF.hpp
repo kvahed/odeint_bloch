@@ -19,6 +19,8 @@ sech (const T x) { return (T)1 / (T)cosh(x); }
 template<class T>
 class AdiabaticRF : public RF<T> {
 
+	typedef std::complex<T> CT;
+
 public:
 
 	AdiabaticRF (double start = 0., double end = 0., T scale = 1.) :
@@ -28,13 +30,14 @@ public:
 
 	virtual ~AdiabaticRF() {};
 
-	std::complex<T> operator() (double t) const {
+	CT operator() (double t) const {
 		if (this->Active(t) && this->Duration() > 0.) {
 			double x = pow(TWOPI * ((t-this->_tpois.front())/this->Duration()-.5),2.0);
 			return this->_scale*std::polar(sech(x),x*x);
 		}
 		return std::complex<T>(0.,0.);
 	}
+
 
 };
 

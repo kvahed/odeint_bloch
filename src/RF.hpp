@@ -16,11 +16,11 @@
 template<class T> class HardRF;
 template<class T> class AdiabaticRF;
 
-const static double TWOPI = 6.283185307179586476925286766559005768394338798750211641949889185;
-
 enum RFType {NONE_RF = -1, HARD_RF, ADIABATIC_RF, SINC_RF};
 
 template<class T> class RF : public Event<T> {
+
+	typedef std::complex<T> CT;
 
 public:
 
@@ -43,7 +43,19 @@ public:
 		return _type;
 	}
 
-	void Dump () {}
+	boost::tuple<NDData<double>, NDData<CT> >Dump (size_t n_samples) const {
+		assert (n_samples > 0);
+		NDData<double> times (n_samples);
+		NDData<CT> data (n_samples);
+		double dt = this->Duration()/n_samples;
+		for (size_t i = 0; i < n_samples; ++i) {
+			double t = dt * i;
+			times[i] = t;
+			data[i] = (*this)(t);
+		}
+		return boost::make_tuple(times, data);
+	}
+
 
 protected:
 	T _phase_offset;
