@@ -82,7 +82,7 @@ public:
      * @param n0 First side
      * @param n1 Second side
      */
-    NDData (const size_t n0, const size_t n1) {
+    explicit NDData (const size_t n0, const size_t n1) {
     	_dims.resize(2);
     	_dims[0] = n0;
     	_dims[1] = n1;
@@ -96,7 +96,7 @@ public:
      * @param n1 Second side
      * @param n2 Third side
      */
-    NDData (const size_t n0, const size_t n1, const size_t n2) {
+    explicit NDData (const size_t n0, const size_t n1, const size_t n2) {
     	_dims.resize(3);
     	_dims[0] = n0;
     	_dims[1] = n1;
@@ -111,7 +111,7 @@ public:
      * @param n1 Second side
      * @param n2 Third side
      */
-    NDData (const size_t n0, const size_t n1, const size_t n2, const size_t n3) {
+    explicit NDData (const size_t n0, const size_t n1, const size_t n2, const size_t n3) {
     	_dims.resize(4);
     	_dims[0] = n0;
     	_dims[1] = n1;
@@ -135,7 +135,7 @@ public:
      *
      * @param dims  Side lengths
      */
-	NDData (const codeare::container<size_t>& dims, const T t) {
+	explicit NDData (const codeare::container<size_t>& dims, const T t) {
 		_dims = dims;
     	Allocate();
     	_data = t;
