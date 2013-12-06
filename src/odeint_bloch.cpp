@@ -9,8 +9,8 @@ using namespace boost::numeric::odeint;
 
 typedef boost::array<double, 3> state_type;
 
-template<class T> void
-multiply (const state_type &m,  codeare::container<T>B, state_type& dm) {
+template<class T> void multiply (const state_type &m,
+		codeare::container<T>B, state_type& dm) {
 
 	dm[0] = B[0]*m[0] + B[3]*m[1] + B[6]*m[2];
 	dm[1] = B[1]*m[0] + B[4]*m[1] + B[7]*m[2];
@@ -18,8 +18,8 @@ multiply (const state_type &m,  codeare::container<T>B, state_type& dm) {
 
 }
 
-template<class T>
-void bloch (const state_type &m, state_type& dm, double t) {
+template<class T> void bloch (const state_type &m,
+		state_type& dm, double t) {
 
 	const Spin<T>& spin = Bloch<T>::Instance().GetSpin();
 	const std::complex<T> rf = Bloch<T>::Instance().GetRF(t);
@@ -43,15 +43,20 @@ void record (const state_type& x, const double t) {
          << scientific << setw(16) << x[0] << setw(16) << x[1] << setw(16) << x[2] << endl;
 }
 
-int main(int argc, char **argv) {
+int main (int argc, char **argv) {
 
-	Spin<double> spin (1., 0., 0., 0., 1., .1, 0.);
+	Spin<double> spin (1., 0., 0., 0., 1., 1., 0.); // PD, X, Y, Z, T1, T2, dW
 	state_type x = { 0., 0., 1. }; // initial magnetisation
 	// Keep the RF in a variable during integration, otherwise its destructor will be called
-	AdiabaticRF<double> rf (0., 10e-3, 2.e-3);
-	Bloch<double>::Instance().SetSpin(spin);
-	Bloch<double>::Instance().AddEvent((RF<double>)rf);
 
-	integrate(bloch<double>, x, 0., 5., 0.1e-3, record);
+	//AdiabaticRF<double> arf (0., 10.e-3, 2.e-3); // Adiabatic hypsec inv 10ms
+	HardRF<double> hrf (0., 2.e-4, std::complex<double>(0.,1.9e-4));   // Hard 90 deg
+
+	Bloch<double>::Instance().SetSpin(spin);
+
+	//Bloch<double>::Instance().AddEvent((RF<double>)arf);
+	Bloch<double>::Instance().AddEvent((RF<double>)hrf);
+
+	integrate(bloch<double>, x, 0., 5., 1.e-6, record);
 
 }

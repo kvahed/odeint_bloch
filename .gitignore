@@ -1,0 +1,17 @@
+.cproject
+.project
+Makefile
+autom4te.cache/
+config.log
+config.status
+out.txt
+src/.deps/
+src/Event.hpp
+src/Gradient.hpp
+src/HardRF.hpp
+src/Makefile
+src/config.h
+src/odeint_bloch
+src/stamp-h1
+
+*.o

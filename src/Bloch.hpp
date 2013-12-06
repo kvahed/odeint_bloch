@@ -11,6 +11,7 @@
 #include "Spin.hpp"
 #include "NDData.hpp"
 #include "AdiabaticRF.hpp"
+#include "HardRF.hpp"
 
 #include <boost/array.hpp>
 
@@ -30,10 +31,12 @@ public:
 
 	inline std::complex<T> GetRF (const double t) const {
 		std::complex<T> rft (0.,0.);
-		for (size_t i = 0; i < _rfs.size(); ++i) {
-			if (_rfs[i]->Type() == ADIABATIC)
-				rft += (*(const AdiabaticRF<T>*)_rfs[i])(t);
-		}
+		for (size_t i = 0; i < _rfs.size(); ++i)
+			switch (_rfs[i]->Type()) {
+			    case ADIABATIC: rft += (*(const AdiabaticRF<T>*)_rfs[i])(t); break;
+			    case HARD:		rft += (*(const HardRF<T>*)_rfs[i])(t); break;
+			    default:        break;
+			}
 		return rft;
 	}
 
