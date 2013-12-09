@@ -19,10 +19,10 @@ int main (int argc, char **argv) {
 
 	/** RF alternatives **/
 	AdiabaticRF<double> rf (0., 10.e-3, 200.0e-6); // Adiabatic hypsec inv 10ms
-	//HardRF<double> rf1 (0., 0.0002, std::complex<double>(0.,1.845e-4));   // Hard 90 deg
+	//HardRF<double> rf1 (0., 200.e-6, std::complex<double>(0.,1.845e-4)); // Hard 90 deg 200us
 
 	/** Simulation world **/
-	Spin<double> spin (1., 0., 0., 0., 1., 60.e-3, 0.*TWOPI);
+	Spin<double> spin (1., 0., 0., 0., 1., 60.e-3, 0.*TWOPI); // Spin
 	Env.SetSpin(spin);
 	Env.AddEvent(rf);
 
