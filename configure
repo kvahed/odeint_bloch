@@ -4226,6 +4226,21 @@ if test -z $hdf5_found; then
     LIBS=$OLD_LIBS
 fi
 
+for ac_header in boost/numeric/odeint.hpp
+do :
+  ac_fn_cxx_check_header_mongrel "$LINENO" "boost/numeric/odeint.hpp" "ac_cv_header_boost_numeric_odeint_hpp" "$ac_includes_default"
+if test "x$ac_cv_header_boost_numeric_odeint_hpp" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_BOOST_NUMERIC_ODEINT_HPP 1
+_ACEOF
+
+else
+  as_fn_error $? "cannot find boost/numeric/odeint.hpp, bailing out" "$LINENO" 5
+fi
+
+done
+
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for stdbool.h that conforms to C99" >&5
 $as_echo_n "checking for stdbool.h that conforms to C99... " >&6; }
 if ${ac_cv_header_stdbool_h+:} false; then :

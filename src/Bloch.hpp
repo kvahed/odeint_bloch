@@ -87,8 +87,6 @@ template<class T> void bloch (const state_type &m,
 	B[1] = -bz; B[4] = -r2; B[7] =  bx;
 	B[2] =  by; B[5] = -bx; B[8] = -r1;
 
-	//std::cerr << t << " " << bx << " " << by  << " " << bz << std::endl;
-
 	multiply (m, B, dm);
 	dm[2] += spin.pd()*r1;
 

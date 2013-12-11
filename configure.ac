@@ -36,6 +36,8 @@ if test -z $hdf5_found; then
     LIBS=$OLD_LIBS
 fi
 
+AC_CHECK_HEADERS([boost/numeric/odeint.hpp],[],[AC_MSG_ERROR([cannot find boost/numeric/odeint.hpp, bailing out])])
+
 AC_CHECK_HEADER_STDBOOL
 AC_C_INLINE
 AC_TYPE_SIZE_T

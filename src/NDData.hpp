@@ -163,6 +163,18 @@ public:
 	}
 
 	/**
+	 * @brief Assignement
+	 *
+	 * @param data To copy
+	 */
+	NDData& operator= (const codeare::container<T>& data) {
+		_dims.resize(1,data.size());
+		_dszs.resize(1,1);
+		_data = data;
+		return *this;
+	}
+
+	/**
 	 *
 	 */
 	inline size_t Dim (const size_t n = 0) const { return _dims[n];	}
